@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @ToString(onlyExplicitlyIncluded = true)
@@ -51,6 +53,22 @@ public class Typo implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("typos")
     private Account account;
+
+    @OneToMany(mappedBy = "typo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("typo")
+    private Set<Comment> comments = new HashSet<>();
+
+    public Typo addComment(final Comment comment) {
+        comments.add(comment);
+        comment.setTypo(this);
+        return this;
+    }
+
+    public Typo removeComment(final Comment comment) {
+        comments.remove(comment);
+        comment.setTypo(null);
+        return this;
+    }
 
     @Override
     public boolean equals(Object obj) {

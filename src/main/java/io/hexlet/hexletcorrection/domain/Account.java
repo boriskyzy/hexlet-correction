@@ -53,6 +53,10 @@ public class Account implements Serializable {
     @JsonIgnoreProperties("account")
     private Set<Typo> typos = new HashSet<>();
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("account")
+    private Set<Comment> comments = new HashSet<>();
+
     public Account addTypo(final Typo typo) {
         this.typos.add(typo);
         typo.setAccount(this);
@@ -62,6 +66,18 @@ public class Account implements Serializable {
     public Account removeTypo(final Typo typo) {
         this.typos.remove(typo);
         typo.setAccount(null);
+        return this;
+    }
+
+    public Account addComment(final Comment comment) {
+        comments.add(comment);
+        comment.setAccount(this);
+        return this;
+    }
+
+    public Account removeComment(final Comment comment) {
+        comments.remove(comment);
+        comment.setAccount(null);
         return this;
     }
 

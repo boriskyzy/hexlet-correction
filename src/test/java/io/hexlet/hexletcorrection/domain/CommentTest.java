@@ -12,45 +12,45 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-class AccountTest {
+class CommentTest {
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    public static Stream<Account> getTestAccount() {
+    public static Stream<Comment> getTestComment() {
         final var comment = new Comment().setId(1L);
-        return Stream.of(new Account()
-            .setId("ID")
+        new Account().setId("ID")
             .addTypo(new Typo()
                 .setId(1L)
                 .addComment(comment))
-            .addComment(comment));
+            .addComment(comment);
+        return Stream.of(comment);
     }
 
     @ParameterizedTest
-    @MethodSource("getTestAccount")
-    public void isNotRecursionCallForJackson(final Account account) throws Exception {
-        System.out.println("Account:\n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(account));
+    @MethodSource("getTestComment")
+    public void isNotRecursionCallForJackson(final Comment comment) throws Exception {
+        System.out.println("Comment:\n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(comment));
     }
 
     @ParameterizedTest
-    @MethodSource("getTestAccount")
-    public void isNotRecursionCallForToString(final Account account) {
-        System.out.println(account);
+    @MethodSource("getTestComment")
+    public void isNotRecursionCallForToString(final Comment comment) {
+        System.out.println(comment);
     }
 
     @Test
     public void equalsIfIdsEquals() {
-        assertThat(new Account().setId("1L")).isEqualTo(new Account().setId("1L"));
+        assertThat(new Comment().setId(1L)).isEqualTo(new Comment().setId(1L));
     }
 
     @Test
     public void notEqualsIfIdsNotEquals() {
-        assertThat(new Account().setId("1L")).isNotEqualTo(new Account().setId("2L"));
+        assertThat(new Comment().setId(1L)).isNotEqualTo(new Comment().setId(2L));
     }
 
     @Test
     public void notEqualsIfOneIdNull() {
-        assertThat(new Account().setId("1L")).isNotEqualTo(new Account());
+        assertThat(new Comment().setId(1L)).isNotEqualTo(new Comment());
     }
 }

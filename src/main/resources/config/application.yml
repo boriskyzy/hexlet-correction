@@ -26,9 +26,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-      naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
   datasource:
     initialization-mode: always
     driver-class-name: org.postgresql.Driver
