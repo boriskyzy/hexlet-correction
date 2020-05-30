@@ -1,5 +1,6 @@
 package io.hexlet.hexletcorrection.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.hexlet.hexletcorrection.domain.enumerator.TypoStatus;
 import lombok.Data;
 import lombok.ToString;
@@ -46,6 +47,10 @@ public class Typo implements Serializable {
     @Enumerated(EnumType.STRING)
     @ToString.Include
     private TypoStatus typoStatus = TypoStatus.REPORTED;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("typos")
+    private Account account;
 
     @Override
     public boolean equals(Object obj) {

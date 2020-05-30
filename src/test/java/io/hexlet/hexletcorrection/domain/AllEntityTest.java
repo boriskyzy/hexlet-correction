@@ -11,7 +11,7 @@ public class AllEntityTest {
      * Verifies the equals/hashcode contract on the domain object.
      */
     @ParameterizedTest
-    @ValueSource(classes = Typo.class)
+    @ValueSource(classes = {Typo.class, Account.class})
     public <T> void equalsVerifier(Class<T> clazz) throws Exception {
         T domainObjectOne = clazz.getConstructor().newInstance();
         assertThat(domainObjectOne.toString()).isNotNull();
