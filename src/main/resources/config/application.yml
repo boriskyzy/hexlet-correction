@@ -16,6 +16,12 @@ spring:
   application:
     name: hexletCorrection
   jpa:
+    properties:
+      hibernate:
+        id:
+          optimizer:
+            pooled:
+              preferred: pooled-lo
     open-in-view: false
     show-sql: true
     hibernate:
