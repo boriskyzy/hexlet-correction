@@ -19,7 +19,7 @@ import java.util.*;
 @ToString(onlyExplicitlyIncluded = true)
 @Accessors(chain = true)
 @Entity
-public class Account implements Serializable {
+public class Account extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

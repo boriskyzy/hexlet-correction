@@ -16,7 +16,7 @@ import java.util.Set;
 @ToString(onlyExplicitlyIncluded = true)
 @Accessors(chain = true)
 @Entity
-public class Typo implements Serializable {
+public class Typo extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
