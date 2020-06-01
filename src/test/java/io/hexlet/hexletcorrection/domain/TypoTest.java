@@ -31,13 +31,13 @@ class TypoTest {
     @ParameterizedTest
     @MethodSource("getTestTypo")
     public void isNotRecursionCallForJackson(final Typo typo) throws Exception {
-        System.out.println("Typo:\n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(typo));
+        assertThat(objectMapper.writeValueAsString(typo)).hasToString(objectMapper.writeValueAsString(typo));
     }
 
     @ParameterizedTest
     @MethodSource("getTestTypo")
     public void isNotRecursionCallForToString(final Typo typo) {
-        System.out.println(typo);
+        assertThat(typo).hasToString(typo.toString());
     }
 
     @Test

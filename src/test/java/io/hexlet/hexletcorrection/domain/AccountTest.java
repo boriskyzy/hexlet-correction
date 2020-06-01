@@ -30,13 +30,13 @@ class AccountTest {
     @ParameterizedTest
     @MethodSource("getTestAccount")
     public void isNotRecursionCallForJackson(final Account account) throws Exception {
-        System.out.println("Account:\n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(account));
+        assertThat(objectMapper.writeValueAsString(account)).hasToString(objectMapper.writeValueAsString(account));
     }
 
     @ParameterizedTest
     @MethodSource("getTestAccount")
     public void isNotRecursionCallForToString(final Account account) {
-        System.out.println(account);
+        assertThat(account).hasToString(account.toString());
     }
 
     @Test

@@ -30,13 +30,13 @@ class CommentTest {
     @ParameterizedTest
     @MethodSource("getTestComment")
     public void isNotRecursionCallForJackson(final Comment comment) throws Exception {
-        System.out.println("Comment:\n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(comment));
+        assertThat(objectMapper.writeValueAsString(comment)).hasToString(objectMapper.writeValueAsString(comment));
     }
 
     @ParameterizedTest
     @MethodSource("getTestComment")
     public void isNotRecursionCallForToString(final Comment comment) {
-        System.out.println(comment);
+        assertThat(comment).hasToString(comment.toString());
     }
 
     @Test

@@ -28,7 +28,6 @@ spring:
       ddl-auto: create-drop
   datasource:
     initialization-mode: always
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/hexletCorrection
-    username: localUser
-    password: pass
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/hexletCorrection}
+    username: ${JDBC_DATABASE_USERNAME:localUser}
+    password: ${JDBC_DATABASE_PASSWORD:pass}
