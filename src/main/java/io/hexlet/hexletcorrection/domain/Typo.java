@@ -1,6 +1,7 @@
 package io.hexlet.hexletcorrection.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.hexlet.hexletcorrection.domain.enumerator.TypoStatus;
 import lombok.Data;
 import lombok.ToString;
@@ -16,6 +17,7 @@ import java.util.Set;
 @ToString(onlyExplicitlyIncluded = true)
 @Accessors(chain = true)
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Typo extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,11 +53,12 @@ public class Typo extends AbstractAuditingEntity implements Serializable {
     private TypoStatus typoStatus = TypoStatus.REPORTED;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("typos")
     private Account account;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Workspace workspace;
+
     @OneToMany(mappedBy = "typo", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties("typo")
     private Set<Comment> comments = new HashSet<>();
 
     public Typo addComment(final Comment comment) {

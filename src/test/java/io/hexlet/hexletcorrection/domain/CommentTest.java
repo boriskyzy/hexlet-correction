@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @JsonTest
 class CommentTest {
@@ -18,25 +19,28 @@ class CommentTest {
     private ObjectMapper objectMapper;
 
     public static Stream<Comment> getTestComment() {
-        final var comment = new Comment().setId(1L);
-        new Account().setId("ID")
-            .addTypo(new Typo()
-                .setId(1L)
-                .addComment(comment))
-            .addComment(comment);
-        return Stream.of(comment);
+        final var comment1 = new Comment().setId(1L);
+        final var comment2 = new Comment().setId(2L);
+        final var typo1 = new Typo().setId(1L).addComment(comment1);
+        final var typo2 = new Typo().setId(2L).addComment(comment2);
+        final var account1 = new Account().setId("ID1").addTypo(typo1).addComment(comment1);
+        final var account2 = new Account().setId("ID2").addTypo(typo2).addComment(comment2);
+        final var workspace = new Workspace().setId("ID")
+            .addAccount(account1).addAccount(account2)
+            .addTypo(typo1).addTypo(typo2);
+        return Stream.of(comment1, comment2);
     }
 
     @ParameterizedTest
     @MethodSource("getTestComment")
-    public void isNotRecursionCallForJackson(final Comment comment) throws Exception {
-        assertThat(objectMapper.writeValueAsString(comment)).hasToString(objectMapper.writeValueAsString(comment));
+    public void isNotRecursionCallForJackson(final Comment comment) {
+        assertDoesNotThrow(() -> objectMapper.writeValueAsString(comment));
     }
 
     @ParameterizedTest
     @MethodSource("getTestComment")
     public void isNotRecursionCallForToString(final Comment comment) {
-        assertThat(comment).hasToString(comment.toString());
+        assertDoesNotThrow(comment::toString);
     }
 
     @Test

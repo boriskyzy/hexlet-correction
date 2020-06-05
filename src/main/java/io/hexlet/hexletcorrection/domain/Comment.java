@@ -1,6 +1,7 @@
 package io.hexlet.hexletcorrection.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -19,6 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 @ToString(onlyExplicitlyIncluded = true)
 @Accessors(chain = true)
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Comment extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,11 +36,9 @@ public class Comment extends AbstractAuditingEntity implements Serializable {
     private String message;
 
     @ManyToOne(fetch = LAZY)
-    @JsonIgnoreProperties({"comments", "typos"})
     private Account account;
 
     @ManyToOne(fetch = LAZY)
-    @JsonIgnoreProperties({"comments", "account"})
     private Typo typo;
 
     @Override

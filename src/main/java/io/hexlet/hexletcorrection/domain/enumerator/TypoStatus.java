@@ -8,5 +8,5 @@ public enum TypoStatus {
     REPORTED,
     IN_PROGRESS,
     RESOLVED,
-    CANCELED;
+    CANCELED
 }

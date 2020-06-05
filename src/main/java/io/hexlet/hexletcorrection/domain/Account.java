@@ -1,7 +1,6 @@
 package io.hexlet.hexletcorrection.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -19,6 +18,7 @@ import java.util.*;
 @ToString(onlyExplicitlyIncluded = true)
 @Accessors(chain = true)
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Account extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +48,10 @@ public class Account extends AbstractAuditingEntity implements Serializable {
     private String lastName;
 
     private String avatarUrl = EntityConstants.DEFAULT_AVATAR;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("accounts")
+    private Workspace workspace;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("account")

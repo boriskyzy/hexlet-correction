@@ -13,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @JsonTest
-class AccountTest {
+class WorkspaceTest {
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    public static Stream<Account> getTestAccount() {
+    public static Stream<Workspace> getTestWorkspace() {
         final var comment1 = new Comment().setId(1L);
         final var comment2 = new Comment().setId(2L);
         final var typo1 = new Typo().setId(1L).addComment(comment1);
@@ -28,33 +28,33 @@ class AccountTest {
         final var workspace = new Workspace().setId("ID")
             .addAccount(account1).addAccount(account2)
             .addTypo(typo1).addTypo(typo2);
-        return Stream.of(account1, account2);
+        return Stream.of(workspace);
     }
 
     @ParameterizedTest
-    @MethodSource("getTestAccount")
-    public void isNotRecursionCallForJackson(final Account account) {
-        assertDoesNotThrow(() -> objectMapper.writeValueAsString(account));
+    @MethodSource("getTestWorkspace")
+    public void isNotRecursionCallForJackson(final Workspace workspace) {
+        assertDoesNotThrow(() -> objectMapper.writeValueAsString(workspace));
     }
 
     @ParameterizedTest
-    @MethodSource("getTestAccount")
-    public void isNotRecursionCallForToString(final Account account) {
-        assertDoesNotThrow(account::toString);
+    @MethodSource("getTestWorkspace")
+    public void isNotRecursionCallForToString(final Workspace workspace) {
+        assertDoesNotThrow(workspace::toString);
     }
 
     @Test
     public void equalsIfIdsEquals() {
-        assertThat(new Account().setId("1L")).isEqualTo(new Account().setId("1L"));
+        assertThat(new Workspace().setId("1L")).isEqualTo(new Workspace().setId("1L"));
     }
 
     @Test
     public void notEqualsIfIdsNotEquals() {
-        assertThat(new Account().setId("1L")).isNotEqualTo(new Account().setId("2L"));
+        assertThat(new Workspace().setId("1L")).isNotEqualTo(new Workspace().setId("2L"));
     }
 
     @Test
     public void notEqualsIfOneIdNull() {
-        assertThat(new Account().setId("1L")).isNotEqualTo(new Account());
+        assertThat(new Workspace().setId("1L")).isNotEqualTo(new Workspace());
     }
 }
