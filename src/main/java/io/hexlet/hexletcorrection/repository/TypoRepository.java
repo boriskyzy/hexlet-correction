@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TypoRepository extends JpaRepository<Typo, Long> {
 
+    int deleteTypoById(Long id);
 }

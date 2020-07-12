@@ -1,6 +1,7 @@
 package io.hexlet.hexletcorrection.domain;
 
 import com.fasterxml.jackson.annotation.*;
+import io.hexlet.hexletcorrection.domain.enumerator.Authority;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -48,6 +49,12 @@ public class Account extends AbstractAuditingEntity implements Serializable {
     private String lastName;
 
     private String avatarUrl = EntityConstants.DEFAULT_AVATAR;
+
+    private Boolean enabled = true;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<Authority> authorities = Set.of(Authority.ROLE_USER);
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("accounts")
